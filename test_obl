@@ -1,0 +1,13 @@
+WSTU:
+  check healer magic before searching for person to heal
+  pass subject, healer, priority
+  
+  let my_healing spells := [heal, convalesence]
+  foreach iter <- my_healing_spells                                           ;       0,       1,    2,     3,        4
+    let current_spell_arr = Call GetSpellDetails iter["value"]     ;returns array [spell_id, cost, power, period, target etc]
+    if current_spell_arr[1] < healer.GetCurrentMagicka
+      if  eval (Call IsHealWorthIt current_spell_arr[0]  subject  healer)
+         Cast current_spell_arr[0] healer subject
+      endif
+    endif
+  loop
